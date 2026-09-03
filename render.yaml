@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: flexipay-emi-catalog
+    runtime: node
+    buildCommand: npm ci && npm run build
+    preDeployCommand: npm run db:migrate
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: 22.22.0
+      - key: DATABASE_URL
+        fromDatabase:
+          name: flexipay-emi-db
+          property: connectionString
+
+databases:
+  - name: flexipay-emi-db
+    databaseName: emi_catalog
+    user: emi_user
+    plan: basic-256mb
