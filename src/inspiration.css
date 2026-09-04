@@ -135,3 +135,30 @@ html { scroll-behavior: smooth; } body { background: #fff; }
 
 .retail-categories div { text-align: center; }
 .retail-categories h3 { font-size: 18px; font-weight: 600; letter-spacing: -.04em; }
+
+/* Must appear after the desktop detail-grid rule above: source order otherwise
+   forces a two-column product view into narrow phone screens. */
+@media (max-width: 740px) {
+  .product-page { width: 100%; max-width: none; padding: 18px 16px 52px; }
+  .detail-grid { grid-template-columns: minmax(0, 1fr); gap: 30px; }
+  .product-card { position: static; top: auto; min-height: 0; width: 100%; }
+  .plans-panel { min-width: 0; width: 100%; padding-top: 0; }
+  .product-image-frame { height: 280px; }
+  .product-image-frame .product-image { padding: 18px; }
+  .specifications dl { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .storage-picker div, .finish-picker div { gap: 8px; }
+  .storage-option { max-width: 100%; }
+}
+
+@media (max-width: 740px) {
+  html, body { max-width: 100%; overflow-x: hidden; }
+  .commerce-page { width: 100%; max-width: none; padding: 34px 16px 56px; }
+  .commerce-heading { margin-bottom: 28px; }
+  .commerce-heading h1 { margin-top: 8px; font-size: clamp(36px, 13vw, 48px); line-height: 1.02; }
+  .checkout-layout { grid-template-columns: minmax(0, 1fr); gap: 22px; }
+  .checkout-form, .checkout-summary, .order-summary { position: static; width: 100%; padding: 22px; }
+  .checkout-form input { min-width: 0; }
+  .footer-shell { grid-template-columns: minmax(0, 1fr); }
+  .footer-links { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 25px 18px; }
+  .footer-bottom { padding-inline: 18px; }
+}

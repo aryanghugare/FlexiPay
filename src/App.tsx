@@ -20,7 +20,10 @@ function ScrollManager() {
       requestAnimationFrame(() => document.getElementById(id)?.scrollIntoView({ block: 'start' }));
       return;
     }
-    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+    const resetScroll = () => window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+    resetScroll();
+    const animationFrame = requestAnimationFrame(resetScroll);
+    return () => cancelAnimationFrame(animationFrame);
   }, [pathname, search, hash]);
   return null;
 }
