@@ -239,3 +239,13 @@ The repository includes [render.yaml](render.yaml), which creates a Node web ser
 4. The resulting service serves the React application and `/api` from the same origin. Its health check is `/api/health`.
 
 `DATABASE_URL` is wired automatically from the Blueprint-managed `flexipay-emi-db` database.
+
+### Deploying the frontend separately on Vercel
+
+Add the following **Config** environment variable in Vercel (it is intentionally public because Vite bundles `VITE_` values into the browser):
+
+```env
+VITE_API_BASE_URL=https://your-render-service.onrender.com
+```
+
+Use the full Render service URL without a trailing slash, then redeploy Vercel after saving it. Do not use the Secret type for this variable; it is a public API address, not a credential.

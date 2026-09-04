@@ -4,6 +4,8 @@ import type { Category, EmiPlan, Product, ProductSummary, Variant } from './type
 
 const rupees = (paise: number) => new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(paise / 100);
 const rate = (basisPoints: number) => basisPoints === 0 ? '0% interest' : `${(basisPoints / 100).toFixed(1)}% interest`;
+const apiBaseUrl = (import.meta.env.VITE_API_BASE_URL ?? '').replace(/\/+$/, '');
+const apiUrl = (path: string) => `${apiBaseUrl}${path}`;
 
 function ScrollManager() {
   const { pathname, search, hash } = useLocation();
@@ -46,7 +48,7 @@ function Catalog() {
   const [products, setProducts] = useState<ProductSummary[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [error, setError] = useState('');
-  useEffect(() => { Promise.all([fetch('/api/products'), fetch('/api/categories')]).then(async ([productsResponse, categoriesResponse]) => { if (!productsResponse.ok || !categoriesResponse.ok) throw new Error(); return [await productsResponse.json(), await categoriesResponse.json()]; }).then(([productData, categoryData]) => { setProducts(productData); setCategories(categoryData); }).catch(() => setError('Catalog data is currently unavailable.')); }, []);
+  useEffect(() => { Promise.all([fetch(apiUrl('/api/products')), fetch(apiUrl('/api/categories'))]).then(async ([productsResponse, categoriesResponse]) => { if (!productsResponse.ok || !categoriesResponse.ok) throw new Error(); return [await productsResponse.json(), await categoriesResponse.json()]; }).then(([productData, categoryData]) => { setProducts(productData); setCategories(categoryData); }).catch(() => setError('Catalog data is currently unavailable.')); }, []);
   if (error) return <main className="status">{error}</main>;
   const featured = products[0];
   const picks = products.slice(1, 4);
@@ -69,7 +71,7 @@ function CategoryPage() {
   const [error, setError] = useState('');
   useEffect(() => {
     setCategory(null); setProducts([]); setError('');
-    fetch(`/api/categories/${slug}/products`).then(async response => {
+    fetch(apiUrl(`/api/categories/${slug}/products`)).then(async response => {
       if (response.status === 404) throw new Error('This category could not be found.');
       if (!response.ok) throw new Error('Category products are currently unavailable.');
       return response.json();
@@ -99,7 +101,7 @@ function ProductPage() {
   const navigate = useNavigate();
   useEffect(() => {
     setProduct(null); setVariant(null); setSelectedPlan(null); setError('');
-    fetch(`/api/products/${slug}`).then(async response => {
+    fetch(apiUrl(`/api/products/${slug}`)).then(async response => {
       if (response.status === 404) throw new Error('This product could not be found.');
       if (!response.ok) throw new Error('Product data is currently unavailable.');
       return response.json();
@@ -151,7 +153,7 @@ function CheckoutPage() {
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
   useEffect(() => {
     if (!productSlug || !variantId || !planId) return;
-    fetch(`/api/products/${productSlug}`).then(response => response.ok ? response.json() : Promise.reject()).then((data: Product) => setProduct(data)).catch(() => setError('Checkout details are currently unavailable.'));
+    fetch(apiUrl(`/api/products/${productSlug}`)).then(response => response.ok ? response.json() : Promise.reject()).then((data: Product) => setProduct(data)).catch(() => setError('Checkout details are currently unavailable.'));
   }, [productSlug, variantId, planId]);
   if (complete) return <main className="commerce-page"><section className="confirmation"><span className="eyebrow">ORDER RECEIVED</span><h1>Your plan is reserved.</h1><p>We’ve recorded your selected EMI plans. A representative will contact you to complete the application.</p><Link className="proceed-button" to="/">Continue shopping <span>→</span></Link></section></main>;
   if (!productSlug || !variantId || !planId) return <Navigate to="/" replace />;
