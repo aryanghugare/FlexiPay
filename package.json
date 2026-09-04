@@ -8,7 +8,7 @@
     "dev:api": "tsx watch server/index.ts",
     "dev:web": "vite",
     "build": "tsc --noEmit && vite build",
-    "start": "tsx server/index.ts",
+    "start": "npm run db:migrate && tsx server/index.ts",
     "db:migrate": "tsx server/migrate.ts"
   },
   "dependencies": {

@@ -87,7 +87,7 @@ Vite proxies `/api` requests to the Express server while developing.
 
 ```bash
 npm run build       # Type-check and create a production frontend build
-npm run start       # Serve Express API and the built frontend
+npm run start       # Apply the idempotent migration, then serve Express and the built frontend
 npm run db:migrate  # Apply schema and seed data
 ```
 
