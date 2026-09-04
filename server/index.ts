@@ -27,7 +27,7 @@ app.get('/api/products', async (_req, res, next) => {
   try {
     const { rows } = await pool.query(`
       SELECT p.id, p.slug, p.name, p.short_description, p.mrp_paise AS "mrpPaise",
-             p.price_paise AS "pricePaise", p.image_url AS "imageUrl",
+             p.price_paise AS "pricePaise", p.image_url AS "imageUrl", p.image_scale AS "imageScale",
              (SELECT storage FROM product_variants WHERE product_id = p.id ORDER BY display_order LIMIT 1) AS "defaultStorage"
       FROM products p ORDER BY p.id
     `);
@@ -35,18 +35,48 @@ app.get('/api/products', async (_req, res, next) => {
   } catch (error) { next(error); }
 });
 
+app.get('/api/categories', async (_req, res, next) => {
+  try {
+    const { rows } = await pool.query(`
+      SELECT id, slug, name, description, image_url AS "imageUrl", image_scale AS "imageScale"
+      FROM categories
+      WHERE is_active = TRUE
+      ORDER BY display_order
+    `);
+    res.json(rows);
+  } catch (error) { next(error); }
+});
+
+app.get('/api/categories/:slug/products', async (req, res, next) => {
+  try {
+    const categoryResult = await pool.query(`
+      SELECT id, slug, name, description, image_url AS "imageUrl", image_scale AS "imageScale"
+      FROM categories WHERE slug = $1 AND is_active = TRUE
+    `, [req.params.slug]);
+    const category = categoryResult.rows[0];
+    if (!category) return res.status(404).json({ error: 'Category not found' });
+    const { rows: products } = await pool.query(`
+      SELECT p.id, p.slug, p.name, p.short_description, p.mrp_paise AS "mrpPaise",
+             p.price_paise AS "pricePaise", p.image_url AS "imageUrl", p.image_scale AS "imageScale",
+             (SELECT storage FROM product_variants WHERE product_id = p.id ORDER BY display_order LIMIT 1) AS "defaultStorage"
+      FROM products p WHERE p.category_id = $1 ORDER BY p.id
+    `, [category.id]);
+    res.json({ category, products });
+  } catch (error) { next(error); }
+});
+
 app.get('/api/products/:slug', async (req, res, next) => {
   try {
     const productResult = await pool.query(`
       SELECT id, slug, name, short_description AS "shortDescription", mrp_paise AS "mrpPaise",
-             price_paise AS "pricePaise", image_url AS "imageUrl"
+             price_paise AS "pricePaise", image_url AS "imageUrl", image_scale AS "imageScale"
       FROM products WHERE slug = $1
     `, [req.params.slug]);
     const product = productResult.rows[0];
     if (!product) return res.status(404).json({ error: 'Product not found' });
 
     const [variants, plans, specifications] = await Promise.all([
-      pool.query(`SELECT id, label, ram, storage, mrp_paise AS "mrpPaise", price_paise AS "pricePaise", color_hex AS "colorHex", image_url AS "imageUrl"
+      pool.query(`SELECT id, label, ram, storage, configuration_label AS "configurationLabel", mrp_paise AS "mrpPaise", price_paise AS "pricePaise", color_hex AS "colorHex", image_url AS "imageUrl"
         FROM product_variants WHERE product_id = $1 ORDER BY display_order`, [product.id]),
       pool.query(`SELECT id, variant_id AS "variantId", monthly_payment_paise AS "monthlyPaymentPaise", tenure_months AS "tenureMonths",
         interest_rate_bps AS "interestRateBps", cashback_paise AS "cashbackPaise"

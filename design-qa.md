@@ -1,10 +1,10 @@
 # Design QA
 
-**Source visual truth:** user-supplied EMI product reference screenshot (Image #1 in this conversation).
+**Source visual truth:** user-supplied retail UI inspiration screenshots (Images #1–#3 in this conversation).
 
-**Implementation target:** `/products/iphone-17-pro`, with the first finish and first EMI plan selected.
+**Implementation target:** catalog, product-detail, and checkout views after the retail visual-layer refresh.
 
-**Viewport and state:** desktop reference is approximately 724 × 724 px; implementation needs a browser-rendered capture at the same viewport before visual QA can pass.
+**Viewport and state:** desktop; implementation needs browser-rendered captures at a matching desktop viewport before visual QA can pass.
 
 **Evidence available:**
 

@@ -1,0 +1,99 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap');
+
+:root { font-family: "DM Sans", ui-sans-serif, system-ui, sans-serif; background: #fff; color: #101010; }
+html { scroll-behavior: smooth; } body { background: #fff; }
+.site-header { position: sticky; border-bottom: 1px solid #ececec; background: #fffffff5; }
+.nav-shell { max-width: 1320px; height: 76px; padding-inline: 36px; }
+.brand { font-size: 23px; letter-spacing: -.055em; }
+.site-nav { gap: 25px; color: #151515; font-size: 12px; font-weight: 600; }
+.nav-cta { border-radius: 999px; padding: 10px 17px; background: #111; font-size: 12px; }
+
+.catalog-page { max-width: 1320px; padding: 68px 36px 92px; }
+.catalog-intro { max-width: 720px; margin-bottom: 52px; }
+.catalog-intro .eyebrow { color: #111; font-size: 11px; letter-spacing: .12em; }
+.catalog-intro h1 { margin-top: 13px; font-size: clamp(44px, 6vw, 78px); font-weight: 600; letter-spacing: -.075em; line-height: .98; }
+.catalog-intro p { margin-top: 18px; color: #737373; font-size: 17px; }
+.catalog-grid { gap: 14px; }
+.catalog-card { min-height: 438px; padding: 18px; border: 0; border-radius: 14px; background: #fff; box-shadow: none; }
+.catalog-card:hover { transform: translateY(-3px); border-color: transparent; box-shadow: none; }
+.catalog-card img { height: 260px; border-radius: 11px; background: #f6f6f4; }
+.catalog-card h2 { margin-top: 8px; font-size: 20px; font-weight: 600; letter-spacing: -.045em; }
+.catalog-card p { font-size: 16px; }.catalog-card .catalog-link { color: #111; font-size: 13px; }
+.how-it-works { margin-top: 76px; padding: 42px; border-radius: 16px; background: #151515; }
+.how-it-works h2 { font-weight: 500; letter-spacing: -.05em; }.steps { gap: 38px; }
+
+.home-benefits { border-top: 1px solid #e8e8e8; padding-top: 70px; }
+.home-benefits h2, .home-closing h2 { font-weight: 500; letter-spacing: -.06em; }
+.benefit-list { gap: 14px; }.benefit-list article { min-height: 178px; border-color: #e7e7e7; border-radius: 12px; box-shadow: none; }
+.benefit-list h3 { font-weight: 600; }.home-closing { border-radius: 16px; background: #f1f1ee; }
+.closing-link { border-radius: 999px; }
+
+.product-page { max-width: 1240px; padding: 30px 36px 80px; }
+.breadcrumb { border-bottom: 1px solid #e9e9e9; margin-bottom: 22px; }
+.detail-grid { grid-template-columns: minmax(320px, .95fr) minmax(400px, 1.05fr); gap: 54px; }
+.product-card { top: 96px; border-radius: 14px; padding: 28px; box-shadow: none; border: 1px solid #ededed; }
+.product-copy h1 { font-size: clamp(30px, 3.4vw, 42px); font-weight: 600; letter-spacing: -.065em; }.product-copy p { font-size: 16px; }
+.product-image { height: 265px; background: #f7f7f5; border-radius: 12px; }
+.specifications dl > div { background: #f7f7f5; border-radius: 8px; }
+.plans-panel header { padding-bottom: 18px; border-bottom: 1px solid #e9e9e9; }.price { font-size: 36px; }
+.plans-panel h2 { font-size: 24px; font-weight: 500; }
+.plan-list { gap: 10px; }.plan-card { border: 1px solid #e9e9e9; border-radius: 11px; padding: 16px; box-shadow: none; }.plan-card:hover { border-color: #aaa; }
+.plan-card.selected { border: 2px solid #111; background: #fff; box-shadow: none; }.selected-tag { background: #111; }.cashback { color: #087b5a; }
+.proceed-button { border-radius: 999px; background: #111; box-shadow: none; }.proceed-button:hover { background: #2b2b2b; }
+
+.commerce-page { max-width: 1240px; padding: 72px 36px 88px; }.commerce-heading h1 { font-weight: 600; letter-spacing: -.07em; }
+.checkout-form, .order-summary { border: 1px solid #ececec; border-radius: 14px; box-shadow: none; }.checkout-form input { border-color: #dcdcdc; border-radius: 9px; background: #fff; }.checkout-form input:focus { border-color: #111; outline-color: #111; }
+.site-footer { background: #151515; }.footer-shell { max-width: 1320px; }
+
+/* Reference-inspired retail homepage. */
+.retail-home { width: 100%; max-width: 1240px; margin: 0 auto; padding: 34px 36px 90px; }
+.retail-hero { min-height: 340px; display: grid; grid-template-columns: 1fr 1.08fr; overflow: hidden; border-radius: 14px; background: #f5f5f2; }
+.retail-hero-copy { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; padding: 44px 54px; }.retail-hero-copy > span { font-size: 11px; font-weight: 700; letter-spacing: .12em; }.retail-hero h1 { margin: 11px 0; font-size: clamp(38px, 4.5vw, 61px); font-weight: 500; letter-spacing: -.075em; line-height: .98; }.retail-hero p { max-width: 290px; margin: 0 0 22px; color: #666; font-size: 14px; line-height: 1.5; }.retail-hero-copy a { padding: 10px 16px; border-radius: 999px; background: #111; color: #fff; font-size: 12px; font-weight: 700; }
+.retail-hero-product { position: relative; display: grid; place-items: center; overflow: hidden; isolation: isolate; background: #f4f4f2; }.retail-hero-product img { width: 75%; height: 76%; object-fit: contain; mix-blend-mode: darken; }.retail-hero-product div { position: absolute; bottom: 28px; left: 50%; display: grid; gap: 5px; min-width: 170px; transform: translateX(-50%); border-left: 0 !important; padding-left: 0 !important; }.retail-hero-product small { color: #6f6f6b; font-size: 9px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }.retail-hero-product strong { font-size: 17px; font-weight: 600; letter-spacing: -.045em; }.retail-hero-product span { font-size: 12px; font-weight: 600; }
+.retail-section { margin-top: 64px; }.retail-section > header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 19px; }.retail-section > header h2 { margin: 0; font-size: 30px; font-weight: 500; letter-spacing: -.055em; }.retail-section > header a { color: #5d5d5d; font-size: 12px; text-decoration: underline; text-underline-offset: 4px; }
+.retail-picks { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }.retail-picks > a { min-height: 390px; position: relative; display: grid; overflow: hidden; isolation: isolate; border-radius: 12px; background: #f4f4f2; }.retail-picks img { width: 100%; height: 100%; object-fit: contain; padding: 30px; mix-blend-mode: darken; }.retail-picks div { position: absolute; inset: auto 16px 15px; color: #111; }.retail-picks small { font-size: 10px; }.retail-picks h3 { margin: 3px 0; font-size: 17px; font-weight: 600; letter-spacing: -.04em; }.retail-picks strong { font-size: 12px; }
+.retail-categories { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }.retail-categories a { min-height: 190px; position: relative; overflow: hidden; isolation: isolate; border-radius: 11px; background: #f4f4f2; }.retail-categories img { width: 100%; height: 100%; padding: 20px; object-fit: contain; opacity: .95; mix-blend-mode: darken; transition: transform .2s ease; }.retail-categories div { position: absolute; inset: auto 12px 11px; }.retail-categories h3 { margin: 0; font-size: 13px; letter-spacing: -.035em; }.retail-categories p { display: none; }
+.retail-trending { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }.retail-trending a { display: grid; grid-template-columns: 100px 1fr; column-gap: 12px; align-items: center; padding: 12px; border: 1px solid #ededed; border-radius: 10px; }.trending-image-frame { grid-row: span 3; width: 100px; height: 115px; overflow: hidden; isolation: isolate; border-radius: 7px; background: #f4f4f2; }.trending-image-frame img { display: block; width: 100%; height: 100%; object-fit: contain; background: transparent; mix-blend-mode: darken; }.retail-trending h3 { margin: 0; font-size: 14px; letter-spacing: -.035em; }.retail-trending small { color: #777; font-size: 11px; }.retail-trending strong { font-size: 13px; }
+.how-it-works, .home-support { scroll-margin-top: 100px; }.home-support { display: flex; align-items: end; justify-content: space-between; gap: 36px; margin-top: 64px; padding: 42px 46px; border-radius: 16px; background: #f4f4f2; }.home-support > div:first-child { max-width: 560px; }.home-support span { font-size: 11px; font-weight: 700; letter-spacing: .12em; }.home-support h2 { margin: 12px 0; font-size: clamp(30px, 3.6vw, 45px); font-weight: 500; letter-spacing: -.065em; line-height: 1.02; }.home-support p { max-width: 490px; margin: 0; color: #666; font-size: 14px; line-height: 1.55; }.support-actions { display: grid; min-width: 190px; gap: 10px; }.support-actions a { display: flex; align-items: center; justify-content: space-between; gap: 15px; padding: 12px 15px; border: 1px solid #dcdcd8; border-radius: 999px; color: #111; font-size: 12px; font-weight: 700; }.support-actions a:first-child { border-color: #111; background: #111; color: #fff; }
+.collection-page { width: 100%; max-width: 1240px; margin: 0 auto; padding: 52px 36px 88px; }.collection-heading { margin-bottom: 33px; }.collection-heading > a { color: #555; font-size: 12px; }.collection-heading p { max-width: 440px; margin: 28px 0 8px; color: #686868; font-size: 15px; }.collection-heading h1 { margin: 0; font-size: clamp(43px, 6vw, 70px); font-weight: 500; letter-spacing: -.075em; }.collection-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }.collection-card { overflow: hidden; border: 1px solid #ececec; border-radius: 13px; background: #fff; transition: transform .18s ease, box-shadow .18s ease; }.collection-card:hover { transform: translateY(-3px); box-shadow: 0 12px 30px #1212120d; }.collection-card img { width: 100%; height: 275px; padding: 22px; object-fit: contain; background: #f5f5f3; }.collection-card div { padding: 18px; }.collection-card small { color: #767676; font-size: 11px; }.collection-card h2 { margin: 7px 0; font-size: 21px; letter-spacing: -.045em; }.collection-card p { min-height: 40px; margin: 0 0 14px; color: #666; font-size: 13px; line-height: 1.48; }.collection-card strong { display: block; margin-bottom: 16px; font-size: 14px; }.collection-card span { font-size: 12px; font-weight: 700; }.collection-empty { color: #696969; }
+
+/* Retail refinement pass: increase catalog density and make the content, not decoration, lead. */
+.catalog-page { padding-top: 56px; }
+.catalog-intro { max-width: 840px; margin-bottom: 40px; }
+.catalog-intro h1 { max-width: 640px; margin-inline: auto; font-size: clamp(42px, 5.6vw, 70px); }
+.catalog-intro p { max-width: 500px; margin-inline: auto; font-size: 15px; }
+.catalog-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px 16px; }
+.catalog-card { min-height: 407px; padding: 0; border-radius: 0; overflow: visible; }
+.catalog-card img { height: 282px; padding: 20px; border-radius: 11px; object-fit: contain; transition: transform .22s ease, background .22s ease; }
+.catalog-card:hover img { transform: scale(1.018); background: #f2f2ef; }
+.catalog-card > div { padding: 13px 2px 0; }
+.catalog-card > div > span:first-child { color: #8a8a8a; font-size: 11px; font-weight: 600; }
+.catalog-card h2 { margin: 6px 0 3px; font-size: 19px; line-height: 1.16; }
+.catalog-card p { margin: 0 0 11px; color: #151515; font-size: 15px; }
+.catalog-card .catalog-link { display: inline-flex; align-items: center; gap: 6px; padding-bottom: 3px; border-bottom: 1px solid #111; font-size: 12px; }
+.catalog-card .catalog-link b { padding: 0; transition: transform .18s ease; }.catalog-card:hover .catalog-link b { transform: translateX(3px); }
+
+.how-it-works { display: grid; grid-template-columns: .8fr 1.2fr; align-items: end; gap: 42px; padding: 48px; }.how-it-works h2 { margin-bottom: 0; font-size: 38px; }.steps { padding-top: 0; border-top: 0; }.steps p { font-size: 14px; }
+.home-benefits { display: grid; grid-template-columns: .8fr 1.2fr; gap: 42px; align-items: start; }.home-benefits h2 { margin-top: 8px; font-size: 38px; }.benefit-list { margin-top: 0; }.benefit-list article { min-height: 214px; padding: 25px; }.benefit-list h3 { margin-top: 40px; font-size: 17px; }
+.home-closing { margin-top: 86px; padding: 54px; }.home-closing h2 { font-size: 40px; }.closing-link { padding: 14px 20px; }
+
+.product-page { max-width: 1320px; }.detail-grid { grid-template-columns: minmax(360px, 1fr) minmax(430px, 1fr); gap: 70px; }.product-card { border: 0; border-radius: 0; padding: 0; }.product-copy { padding: 0 4px; }.product-copy .new { color: #111; }.product-image { margin-top: 20px; height: 380px; padding: 26px; border-radius: 12px; }.specifications { padding: 0 4px; margin-top: 20px; }.variant-pickers { padding: 0 4px; }.plans-panel { padding-top: 12px; }.plans-panel header { margin: 0 0 18px; }.plan-card { border-radius: 10px; }.plan-card.selected { border-color: #111; }.finish.active { outline-color: #111; }
+.commerce-page { max-width: 1320px; }.commerce-heading { margin-bottom: 44px; }.checkout-layout { gap: 32px; }.checkout-form { padding: 31px; }.order-summary { padding: 28px; }
+
+@media (max-width: 740px) {
+  .nav-shell { height: 64px; padding-inline: 18px; }.catalog-page, .product-page, .commerce-page { padding-inline: 18px; }
+  .catalog-intro h1 { font-size: 49px; }.catalog-card { min-height: 335px; }.catalog-card img { height: 230px; }
+  .detail-grid { gap: 28px; }.product-card { padding: 22px; }.product-image { height: 235px; }.home-closing { padding: 26px; }
+  .catalog-grid, .home-benefits, .how-it-works { grid-template-columns: 1fr; }.catalog-card { min-height: 340px; padding: 0; }.catalog-card img { height: 245px; }.how-it-works { padding: 30px; gap: 26px; }.home-benefits { gap: 28px; }.benefit-list article { min-height: auto; }.product-card { padding: 0; }.product-image { height: 280px; }.product-copy, .specifications, .variant-pickers { padding-inline: 4px; }
+  .retail-home, .collection-page { padding: 20px 18px 60px; }.retail-hero { grid-template-columns: 1fr; }.retail-hero-copy { padding: 36px 28px; }.retail-hero-product { min-height: 270px; }.retail-section { margin-top: 47px; }.retail-section > header h2 { font-size: 26px; }.retail-picks { grid-template-columns: 1fr 1fr; }.retail-picks > a { min-height: 300px; }.retail-categories { grid-template-columns: 1fr 1fr; }.retail-trending, .collection-grid { grid-template-columns: 1fr; }.collection-heading { margin-top: 20px; }.collection-card img { height: 255px; }.home-support { align-items: start; flex-direction: column; margin-top: 47px; padding: 30px 25px; }.support-actions { width: 100%; }.support-actions a { width: 100%; }
+}
+
+/* Source product files can carry different white or ivory canvases. Blend the raster
+   against one owned surface so the image treatment is identical everywhere. */
+.product-image-frame { height: 380px; margin-top: 20px; overflow: hidden; isolation: isolate; border-radius: 12px; background: #f4f4f2; }
+.product-image-frame .product-image { display: block; width: 100%; height: 100%; margin: 0; padding: 26px; border-radius: 0; background: transparent; object-fit: contain; mix-blend-mode: darken; }
+
+@media (max-width: 740px) {
+  .product-image-frame { height: 280px; }
+  .product-image-frame .product-image { padding: 20px; }
+}
