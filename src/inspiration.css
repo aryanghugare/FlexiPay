@@ -93,6 +93,12 @@ html { scroll-behavior: smooth; } body { background: #fff; }
 .product-image-frame { height: 380px; margin-top: 20px; overflow: hidden; isolation: isolate; border-radius: 12px; background: #f4f4f2; }
 .product-image-frame .product-image { display: block; width: 100%; height: 100%; margin: 0; padding: 26px; border-radius: 0; background: transparent; object-fit: contain; mix-blend-mode: darken; }
 
+/* The product image and its caption occupy separate grid rows, preventing overlap
+   at tablet widths while keeping the caption centered to the image itself. */
+.retail-hero-product { grid-template-rows: minmax(0, 1fr) auto; padding: 20px 34px 22px; }
+.retail-hero-product img { width: min(75%, 360px); height: 100%; max-height: 100%; align-self: center; }
+.retail-hero-product div { position: static; width: min(75%, 360px); min-width: 0; margin-top: 8px; transform: translateX(28px); justify-self: center; }
+
 @media (max-width: 740px) {
   .product-image-frame { height: 280px; }
   .product-image-frame .product-image { padding: 20px; }
@@ -109,7 +115,7 @@ html { scroll-behavior: smooth; } body { background: #fff; }
   .retail-hero-copy a { padding: 10px 14px; }
   .retail-hero-product { display: flex; min-height: 330px; flex-direction: column; justify-content: center; padding: 12px 24px 22px; }
   .retail-hero-product img { width: min(78%, 250px); height: 240px; flex: 0 0 240px; }
-  .retail-hero-product div { position: static; width: 100%; min-width: 0; margin-top: 6px; transform: none; }
+  .retail-hero-product div { position: static; width: min(78%, 250px); min-width: 0; align-self: center; margin-top: 6px; transform: none; text-align: center; }
   .retail-hero-product strong { font-size: 16px; }
   .retail-picks, .retail-categories { grid-template-columns: 1fr; }
   .retail-picks > a { min-height: 360px; }
