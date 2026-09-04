@@ -1,4 +1,4 @@
-import { useEffect, useState, type FormEvent } from 'react';
+import { useEffect, useLayoutEffect, useState, type FormEvent } from 'react';
 import { Link, Navigate, Route, Routes, useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import type { Category, EmiPlan, Product, ProductSummary, Variant } from './types';
 
@@ -10,6 +10,11 @@ const apiUrl = (path: string) => `${apiBaseUrl}${path}`;
 function ScrollManager() {
   const { pathname, search, hash } = useLocation();
   useEffect(() => {
+    const previous = window.history.scrollRestoration;
+    window.history.scrollRestoration = 'manual';
+    return () => { window.history.scrollRestoration = previous; };
+  }, []);
+  useLayoutEffect(() => {
     if (hash) {
       const id = decodeURIComponent(hash.slice(1));
       requestAnimationFrame(() => document.getElementById(id)?.scrollIntoView({ block: 'start' }));

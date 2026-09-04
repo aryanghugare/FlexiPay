@@ -107,7 +107,7 @@ WITH finish_seed (product_slug, label, color_hex, image_url, color_order) AS (
     ('samsung-s24-ultra', 'Titanium Gray', '#5d6267', '/assets/nebula-ultra.png', 1),
     ('samsung-s24-ultra', 'Forest Green', '#2e5545', '/assets/nebula-ultra-green-v2.png', 2),
     ('samsung-s24-ultra', 'Titanium Violet', '#766583', '/assets/nebula-ultra-violet-v2.png', 3),
-    ('pixel-9-pro', 'Porcelain', '#e7e1d6', '/assets/vertex-pro.png', 1),
+    ('pixel-9-pro', 'Sky Blue', '#a9c7e5', '/assets/vertex-pro.png', 1),
     ('pixel-9-pro', 'Hazel', '#6a6752', '/assets/vertex-pro-hazel-v2.png', 2),
     ('pixel-9-pro', 'Rose Quartz', '#9d6e78', '/assets/vertex-pro-rose-v2.png', 3)
 ), storage_seed (product_slug, storage, storage_order) AS (
@@ -124,6 +124,13 @@ JOIN storage_seed USING (product_slug)
 JOIN products ON products.slug = finish_seed.product_slug
 ON CONFLICT (product_id, label, storage) DO UPDATE SET color_hex = EXCLUDED.color_hex,
   image_url = EXCLUDED.image_url, display_order = EXCLUDED.display_order;
+
+-- Keep only finishes that have a dedicated, colour-accurate render.
+DELETE FROM product_variants AS variant
+USING products AS product
+WHERE variant.product_id = product.id
+  AND product.slug = 'pixel-9-pro'
+  AND variant.label = 'Porcelain';
 
 INSERT INTO emi_plans (product_id, monthly_payment_paise, tenure_months, interest_rate_bps, cashback_paise, display_order)
 SELECT id, 4496700, 3, 0, 750000, 1 FROM products WHERE slug = 'iphone-17-pro'
@@ -252,9 +259,9 @@ ON CONFLICT (slug) DO UPDATE SET name = EXCLUDED.name, short_description = EXCLU
 
 WITH finish_seed (product_slug, label, color_hex, image_url, color_order) AS (
   VALUES
-    ('oneplus-13', 'Arctic Dawn', '#e7e8e5', '/assets/oneplus-13.png', 1), ('oneplus-13', 'Midnight Ocean', '#25354d', '/assets/oneplus-13.png', 2),
-    ('pixel-9a', 'Iris', '#7073a4', '/assets/pixel-9a.png', 1), ('pixel-9a', 'Porcelain', '#e8e4dc', '/assets/pixel-9a.png', 2),
-    ('xiaomi-15', 'Black', '#25272a', '/assets/xiaomi-15.png', 1), ('xiaomi-15', 'Silver', '#dadddf', '/assets/xiaomi-15.png', 2)
+    ('oneplus-13', 'Graphite', '#4a4c52', '/assets/oneplus-13.png', 1),
+    ('pixel-9a', 'Sage', '#b7c89f', '/assets/pixel-9a.png', 1),
+    ('xiaomi-15', 'Ocean Blue', '#1e3154', '/assets/xiaomi-15.png', 1)
 ), configuration_seed (product_slug, ram, storage, configuration_order) AS (
   VALUES
     ('oneplus-13', '12GB', '256GB', 1), ('oneplus-13', '16GB', '512GB', 2),
@@ -267,6 +274,17 @@ SELECT products.id, finish_seed.label, configuration_seed.ram, configuration_see
 FROM finish_seed JOIN configuration_seed USING (product_slug) JOIN products ON products.slug = finish_seed.product_slug
 ON CONFLICT (product_id, label, storage) DO UPDATE SET ram = EXCLUDED.ram, color_hex = EXCLUDED.color_hex,
   image_url = EXCLUDED.image_url, display_order = EXCLUDED.display_order;
+
+-- These source renders represent one verified finish each; do not expose old
+-- swatches whose names do not match the product pictured.
+DELETE FROM product_variants AS variant
+USING products AS product
+WHERE variant.product_id = product.id
+  AND (
+    (product.slug = 'oneplus-13' AND variant.label <> 'Graphite')
+    OR (product.slug = 'pixel-9a' AND variant.label <> 'Sage')
+    OR (product.slug = 'xiaomi-15' AND variant.label <> 'Ocean Blue')
+  );
 
 INSERT INTO emi_plans (product_id, monthly_payment_paise, tenure_months, interest_rate_bps, cashback_paise, display_order)
 SELECT id, 2433000, 3, 0, 400000, 1 FROM products WHERE slug = 'oneplus-13'
@@ -353,10 +371,10 @@ INSERT INTO product_variants (product_id, label, ram, storage, configuration_lab
 SELECT id, 'Midnight', 'Bluetooth 5.4', 'Standard', 'Bluetooth 5.4 + adaptive ANC', '#202124', '/assets/audio-headphones-transparent.png', 2499900, 2199900, 1 FROM products WHERE slug = 'soundpeak-studio-headphones'
 UNION ALL SELECT id, 'Forest', 'Bluetooth 5.4', 'Standard', 'Bluetooth 5.4 + adaptive ANC', '#183d31', '/assets/soundpeak-studio-headphones-forest.png', 2499900, 2199900, 2 FROM products WHERE slug = 'soundpeak-studio-headphones'
 UNION ALL SELECT id, 'Champagne', 'Bluetooth 5.4', 'Standard', 'Bluetooth 5.4 + spatial audio', '#c9bba5', '/assets/soundpeak-studio-max-champagne.png', 2999900, 2699900, 1 FROM products WHERE slug = 'soundpeak-studio-max'
-UNION ALL SELECT id, 'Champagne', 'Bluetooth 5.4', 'Standard', 'Bluetooth 5.4 + spatial audio', '#c9bba5', '/assets/echobeam-mini-speaker.png', 1199900, 999900, 1 FROM products WHERE slug = 'echobeam-mini-speaker'
+UNION ALL SELECT id, 'Ocean Blue', 'Bluetooth 5.4', 'Standard', 'Bluetooth 5.4 + spatial audio', '#1356bb', '/assets/echobeam-mini-speaker.png', 1199900, 999900, 1 FROM products WHERE slug = 'echobeam-mini-speaker'
 UNION ALL SELECT id, 'Graphite', 'Bluetooth 5.4', 'Standard', 'Bluetooth 5.4 + adaptive ANC', '#30343a', '/assets/pulsebuds-pro.png', 1799900, 1499900, 1 FROM products WHERE slug = 'pulsebuds-pro'
 UNION ALL SELECT id, 'Stone', 'Wi-Fi + Bluetooth', 'Standard', 'Wi-Fi + Bluetooth smart audio', '#958a7d', '/assets/roomtone-smart-speaker.png', 1399900, 1199900, 1 FROM products WHERE slug = 'roomtone-smart-speaker'
-UNION ALL SELECT id, 'Graphite', 'GPS + Bluetooth', '42mm', '42mm · GPS + Bluetooth', '#262b2e', '/assets/wearable-watch-transparent.png', 3299900, 2899900, 1 FROM products WHERE slug = 'orbit-fit-watch'
+UNION ALL SELECT id, 'Forest', 'GPS + Bluetooth', '42mm', '42mm · GPS + Bluetooth', '#244b3d', '/assets/wearable-watch-transparent.png', 3299900, 2899900, 1 FROM products WHERE slug = 'orbit-fit-watch'
 UNION ALL SELECT id, 'Forest', 'GPS + Bluetooth', '46mm', '46mm · GPS + Bluetooth', '#244b3d', '/assets/wearable-watch-transparent.png', 3699900, 3299900, 2 FROM products WHERE slug = 'orbit-fit-watch'
 UNION ALL SELECT id, 'Sky', 'GPS + Bluetooth', '40mm', '40mm · GPS + Bluetooth', '#b9d5ef', '/assets/orbit-fit-watch-mini-blue.png', 2799900, 2499900, 1 FROM products WHERE slug = 'orbit-fit-watch-mini'
 UNION ALL SELECT id, 'Signal Orange', 'GPS + Bluetooth', '46mm', '46mm · GPS + Bluetooth', '#fb641d', '/assets/pulse-run-watch.png', 2199900, 1899900, 1 FROM products WHERE slug = 'pulse-run-watch'
@@ -366,13 +384,15 @@ ON CONFLICT (product_id, label, storage) DO UPDATE SET
   ram = EXCLUDED.ram, configuration_label = EXCLUDED.configuration_label, color_hex = EXCLUDED.color_hex,
   image_url = EXCLUDED.image_url, mrp_paise = EXCLUDED.mrp_paise, price_paise = EXCLUDED.price_paise, display_order = EXCLUDED.display_order;
 
--- Earlier seed iterations used different finishes for these two items. Keep the
+-- Earlier seed iterations used different finishes. Keep the
 -- current catalogue images and options in sync after a repeatable migration.
 DELETE FROM product_variants AS variant
 USING products AS product
 WHERE variant.product_id = product.id
   AND ((product.slug = 'soundpeak-studio-max' AND variant.label IN ('Midnight', 'Sand'))
-    OR (product.slug = 'orbit-fit-watch-mini' AND variant.label IN ('Graphite', 'Forest')));
+    OR (product.slug = 'orbit-fit-watch-mini' AND variant.label IN ('Graphite', 'Forest'))
+    OR (product.slug = 'orbit-fit-watch' AND variant.label = 'Graphite')
+    OR (product.slug = 'echobeam-mini-speaker' AND variant.label = 'Champagne'));
 
 INSERT INTO emi_plans (product_id, variant_id, monthly_payment_paise, tenure_months, interest_rate_bps, cashback_paise, display_order)
 SELECT variant.product_id, variant.id, ROUND(variant.price_paise / tenure.months::numeric)::integer,
