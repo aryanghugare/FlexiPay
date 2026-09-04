@@ -132,3 +132,6 @@ html { scroll-behavior: smooth; } body { background: #fff; }
   .plans-panel h2 { font-size: 22px; }
   .plan-card { padding: 14px; }
 }
+
+.retail-categories div { text-align: center; }
+.retail-categories h3 { font-size: 18px; font-weight: 600; letter-spacing: -.04em; }
