@@ -97,3 +97,32 @@ html { scroll-behavior: smooth; } body { background: #fff; }
   .product-image-frame { height: 280px; }
   .product-image-frame .product-image { padding: 20px; }
 }
+
+/* Small screens use a stacked hero instead of the desktop image-overlay treatment. */
+@media (max-width: 740px) {
+  .retail-home { padding: 16px 16px 56px; }
+  .retail-hero { display: grid; grid-template-columns: minmax(0, 1fr); min-height: 0; }
+  .retail-hero-copy { min-height: 0; padding: 30px 24px 22px; }
+  .retail-hero-copy > span { display: block; font-size: 10px; }
+  .retail-hero h1 { display: block; margin: 10px 0 13px; font-size: clamp(34px, 11vw, 46px); line-height: .98; }
+  .retail-hero p { display: block; max-width: 260px; margin-bottom: 20px; font-size: 13px; }
+  .retail-hero-copy a { padding: 10px 14px; }
+  .retail-hero-product { display: flex; min-height: 330px; flex-direction: column; justify-content: center; padding: 12px 24px 22px; }
+  .retail-hero-product img { width: min(78%, 250px); height: 240px; flex: 0 0 240px; }
+  .retail-hero-product div { position: static; width: 100%; min-width: 0; margin-top: 6px; transform: none; }
+  .retail-hero-product strong { font-size: 16px; }
+  .retail-picks, .retail-categories { grid-template-columns: 1fr; }
+  .retail-picks > a { min-height: 360px; }
+  .retail-categories a { min-height: 240px; }
+  .retail-section { margin-top: 46px; }
+  .retail-section > header { margin-bottom: 15px; }
+  .retail-section > header h2 { font-size: 25px; }
+  .collection-page { padding: 28px 16px 60px; }
+  .collection-heading h1 { font-size: clamp(40px, 14vw, 56px); }
+  .product-page { padding: 18px 16px 52px; }
+  .breadcrumb { min-height: 40px; height: auto; gap: 12px; }
+  .detail-grid { gap: 30px; }
+  .product-copy h1 { font-size: 34px; }
+  .plans-panel h2 { font-size: 22px; }
+  .plan-card { padding: 14px; }
+}

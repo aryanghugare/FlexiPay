@@ -26,8 +26,8 @@ function ScrollManager() {
 }
 
 function SiteHeader() {
-  return <header className="site-header">
-    <div className="nav-shell">
+  return <header className="site-header sticky top-0 z-20">
+    <div className="nav-shell mx-auto flex items-center justify-between">
       <Link className="brand" to="/" aria-label="FlexiPay home"><span>flexi</span>pay</Link>
       <nav className="site-nav" aria-label="Main navigation">
         <a href="/#catalog">Shop electronics</a>
@@ -124,7 +124,7 @@ function ProductPage() {
   };
   const selectFinish = (nextVariant: Variant) => { setVariant(nextVariant); setSelectedPlan(product.plans.find(plan => plan.variantId === nextVariant.id && plan.tenureMonths === selectedPlan.tenureMonths) ?? product.plans.find(plan => plan.variantId === nextVariant.id) ?? null); };
   const availablePlans = product.plans.filter(plan => plan.variantId === variant.id);
-  return <main className="product-page">
+  return <main className="product-page mx-auto w-full">
     <div className="breadcrumb"><Link to="/">← All electronics</Link><span>Choose your plan</span></div>
     <div className="detail-grid">
       <section className="product-card">

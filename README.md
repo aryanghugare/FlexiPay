@@ -16,7 +16,7 @@ The catalog includes smartphones, audio devices and wearables. Each product has 
 
 | Layer | Technology |
 | --- | --- |
-| Frontend | React 18, TypeScript, React Router, Vite, responsive CSS |
+| Frontend | React 18, TypeScript, React Router, Vite, Tailwind CSS v4 |
 | Backend | Node.js, Express, TypeScript |
 | Database | PostgreSQL 16, `pg` |
 | Local database | Docker Compose |

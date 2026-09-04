@@ -1,14 +1,26 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
 
-:root { font-family: Poppins, "Avenir Next", Avenir, ui-sans-serif, system-ui, sans-serif; color: #0d1720; background: #f3f4f4; font-synthesis: none; }
-* { box-sizing: border-box; }
-body { margin: 0; min-width: 320px; background: #f3f4f4; }
-button, a { font: inherit; }
-button { cursor: pointer; }
-a { color: inherit; text-decoration: none; }
-.site-shell { min-height: 100vh; display: flex; flex-direction: column; }
-.site-header { position: sticky; top: 0; z-index: 20; border-bottom: 1px solid #dfe3e2; background: #fffffff2; backdrop-filter: blur(14px); }
-.nav-shell { max-width: 1180px; height: 68px; padding: 0 28px; margin: auto; display: flex; align-items: center; justify-content: space-between; gap: 25px; }
+@theme {
+  --color-flexi-ink: #0d1720;
+  --color-flexi-green: #087b5a;
+  --font-sans: Poppins, "Avenir Next", Avenir, ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  :root { font-family: var(--font-sans); color: #0d1720; background: #f3f4f4; font-synthesis: none; }
+  * { box-sizing: border-box; }
+  body { @apply m-0 min-w-80 bg-[#f3f4f4] text-flexi-ink; }
+  button, a { font: inherit; }
+  button { @apply cursor-pointer; }
+  a { @apply text-inherit no-underline; }
+}
+
+@layer components {
+  .site-shell { @apply flex min-h-screen flex-col; }
+  .site-header { @apply sticky top-0 z-20 border-b border-[#dfe3e2] bg-white/95 backdrop-blur-[14px]; }
+  .nav-shell { @apply mx-auto flex h-[68px] max-w-[1180px] items-center justify-between gap-[25px] px-7; }
+}
 .brand { color: #0e2024; letter-spacing: -.045em; font-size: 25px; font-weight: 700; white-space: nowrap; }.brand span { color: #087b5a; }
 .site-nav { display: flex; align-items: center; gap: 28px; margin-left: auto; color: #52606a; font-size: 14px; font-weight: 650; }.site-nav a:hover { color: #087b5a; }
 .nav-cta { display: inline-flex; align-items: center; gap: 8px; border-radius: 9px; padding: 8px 10px 8px 14px; background: #0e2024; color: #fff; font-size: 13px; font-weight: 750; }.nav-cta:hover { background: #087b5a; }.cart-badge { display: grid; place-items: center; min-width: 21px; height: 21px; padding: 0 5px; border-radius: 100px; background: #82d6b5; color: #073d30; font-size: 11px; }
