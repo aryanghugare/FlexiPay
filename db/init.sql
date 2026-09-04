@@ -181,19 +181,6 @@ ALTER TABLE emi_plans ADD COLUMN IF NOT EXISTS variant_id INTEGER REFERENCES pro
 DROP INDEX IF EXISTS emi_plans_product_tenure_unique_idx;
 CREATE UNIQUE INDEX IF NOT EXISTS emi_plans_variant_tenure_unique_idx ON emi_plans(variant_id, tenure_months) WHERE variant_id IS NOT NULL;
 
--- Every purchasable configuration has its own monthly amount, derived from its database price.
-INSERT INTO emi_plans (product_id, variant_id, monthly_payment_paise, tenure_months, interest_rate_bps, cashback_paise, display_order)
-SELECT variant.product_id, variant.id,
-       ROUND(variant.price_paise / plan.tenure_months::numeric)::integer,
-       plan.tenure_months, plan.interest_rate_bps, plan.cashback_paise, plan.display_order
-FROM product_variants AS variant
-CROSS JOIN (VALUES
-  (3, 0, 750000, 1), (6, 0, 750000, 2), (12, 0, 750000, 3), (24, 0, 750000, 4), (36, 1050, 500000, 5)
-) AS plan(tenure_months, interest_rate_bps, cashback_paise, display_order)
-ON CONFLICT (variant_id, tenure_months) WHERE variant_id IS NOT NULL DO UPDATE
-SET monthly_payment_paise = EXCLUDED.monthly_payment_paise, interest_rate_bps = EXCLUDED.interest_rate_bps,
-    cashback_paise = EXCLUDED.cashback_paise, display_order = EXCLUDED.display_order;
-
 ALTER TABLE product_variants ADD COLUMN IF NOT EXISTS mrp_paise INTEGER NOT NULL DEFAULT 0;
 ALTER TABLE product_variants ADD COLUMN IF NOT EXISTS price_paise INTEGER NOT NULL DEFAULT 0;
 
@@ -255,12 +242,13 @@ UPDATE product_variants
 SET configuration_label = ram || ' RAM + ' || storage
 WHERE configuration_label = '';
 
-INSERT INTO products (slug, name, short_description, mrp_paise, price_paise, image_url) VALUES
-  ('oneplus-13', 'OnePlus 13', 'A performance-focused flagship with a refined build.', 7999900, 7299900, '/assets/oneplus-13.png'),
-  ('pixel-9a', 'Google Pixel 9a', 'A smart, camera-ready everyday phone.', 5499900, 4999900, '/assets/pixel-9a.png'),
-  ('xiaomi-15', 'Xiaomi 15', 'A compact flagship built for fast everyday use.', 6999900, 6499900, '/assets/xiaomi-15.png')
+INSERT INTO products (slug, name, short_description, mrp_paise, price_paise, image_url, category_id) VALUES
+  ('oneplus-13', 'OnePlus 13', 'A performance-focused flagship with a refined build.', 7999900, 7299900, '/assets/oneplus-13.png', (SELECT id FROM categories WHERE slug = 'smartphones')),
+  ('pixel-9a', 'Google Pixel 9a', 'A smart, camera-ready everyday phone.', 5499900, 4999900, '/assets/pixel-9a.png', (SELECT id FROM categories WHERE slug = 'smartphones')),
+  ('xiaomi-15', 'Xiaomi 15', 'A compact flagship built for fast everyday use.', 6999900, 6499900, '/assets/xiaomi-15.png', (SELECT id FROM categories WHERE slug = 'smartphones'))
 ON CONFLICT (slug) DO UPDATE SET name = EXCLUDED.name, short_description = EXCLUDED.short_description,
-  mrp_paise = EXCLUDED.mrp_paise, price_paise = EXCLUDED.price_paise, image_url = EXCLUDED.image_url;
+  mrp_paise = EXCLUDED.mrp_paise, price_paise = EXCLUDED.price_paise, image_url = EXCLUDED.image_url,
+  category_id = EXCLUDED.category_id;
 
 WITH finish_seed (product_slug, label, color_hex, image_url, color_order) AS (
   VALUES
@@ -329,6 +317,21 @@ mrp_paise = CASE product.slug
 END
 FROM products AS product
 WHERE product.id = variant.product_id;
+
+-- Variant prices are seeded above, before deriving their configuration-specific EMI amounts.
+INSERT INTO emi_plans (product_id, variant_id, monthly_payment_paise, tenure_months, interest_rate_bps, cashback_paise, display_order)
+SELECT variant.product_id, variant.id,
+       ROUND(variant.price_paise / plan.tenure_months::numeric)::integer,
+       plan.tenure_months, plan.interest_rate_bps, plan.cashback_paise, plan.display_order
+FROM product_variants AS variant
+JOIN products AS product ON product.id = variant.product_id
+CROSS JOIN (VALUES
+  (3, 0, 750000, 1), (6, 0, 750000, 2), (12, 0, 750000, 3), (24, 0, 750000, 4), (36, 1050, 500000, 5)
+) AS plan(tenure_months, interest_rate_bps, cashback_paise, display_order)
+WHERE product.category_id = (SELECT id FROM categories WHERE slug = 'smartphones')
+ON CONFLICT (variant_id, tenure_months) WHERE variant_id IS NOT NULL DO UPDATE
+SET monthly_payment_paise = EXCLUDED.monthly_payment_paise, interest_rate_bps = EXCLUDED.interest_rate_bps,
+    cashback_paise = EXCLUDED.cashback_paise, display_order = EXCLUDED.display_order;
 
 -- Non-phone catalogue items are first-class products too, with the same API, variants and EMI flow.
 INSERT INTO products (slug, name, short_description, mrp_paise, price_paise, image_url, category_id) VALUES
